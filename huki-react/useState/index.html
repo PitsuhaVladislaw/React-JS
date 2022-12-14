@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Hello React</title>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel"> 
+        function UserData() {
+                const [user, setUser] = React.useState({ name: "Tom", age: 36 });
+
+                function handleNameChange(event) {
+                setUser({ ...user, name: event.target.value });
+                }
+
+                function handleAgeChange(event) {
+                    setUser({ ...user, age: event.target.value });
+                }
+
+                return (
+                    <div>
+                        <h3>Name: {user.name}</h3>
+                        <h3>Age: {user.age}</h3>
+
+                        <div>
+                            <p>Name: <input type="text" value={user.name} onChange={handleNameChange} /> </p>
+                            <p>Age: <input type="number" min="0" max="110" value={user.age} onChange={handleAgeChange} /> </p>
+                        </div>
+                    </div>
+                )
+            }
+
+            ReactDOM.createRoot(
+                document.getElementById("app")
+            )
+                .render(
+                    <UserData />
+                )
+    </script>
+</body>
+
+</html>

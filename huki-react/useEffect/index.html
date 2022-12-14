@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Hello React</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <button id="unmountBtn">Unmount</button>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel"> 
+        const root = ReactDOM.createRoot(
+            document.getElementById("app")
+        );
+
+        function User() {
+            const [name, setName] = React.useState("Tom");
+            const unmount = () => root.unmount();
+
+            React.useEffect(() => {
+                const unmountBtn = document.getElementById("unmountBtn");
+
+                // подписываемся на событие onclick кнопки unmountBtn
+                unmountBtn.addEventListener("click", unmount);
+                console.log("EventListener added");
+
+                return () => {
+                    // отписываемся от события
+                    unmountBtn.removeEventListener("click", unmount);
+                    console.log("EventListener removed");
+                }
+            },
+                []); // эффект срабатывает только один раз - при самом первом рендеринге
+
+            return (<div>
+                <h3>Имя: {name}</h3>
+                <p>Имя: <input type="text" value={name} onChange={(e) => setName(e.target.value)} /></p>
+            </div>);
+        }
+
+        root.render(
+            <User />
+        );
+    </script>
+</body>
+
+</html>

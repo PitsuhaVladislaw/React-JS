@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Hello React</title>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel"> 
+        const roots = ReactDOM.createRoot(
+                document.getElementById("app")
+            );
+
+            function UserForm() {
+                const [name, setName] = React.useState("Tom");
+                const nameRef = React.useRef(name);
+
+                React.useEffect(() => {
+                    nameRef.current = name;
+                }, [name]);
+
+                React.useEffect(() => {
+                    const userName = localStorage.getItem("userName");
+
+                    if (userName !== null) {
+                        setName(userName);
+                        console.log("Got!");
+                    }
+
+                    return () => {
+                        console.log(nameRef.current);
+                        localStorage.setItem("userName", nameRef.current);
+                        console.log("Saved!");
+                    }
+                },
+                    []);
+
+                function changeName(event) {
+                    setName(event.target.value);
+                }
+                function unmount() {
+                    return roots.unmount();
+                }
+
+                return (
+                    <div>
+                        <h3>Name: {name}</h3>
+                        <div>
+                            <p>Name: <input type="text" value={name} onChange={changeName} /></p>
+                            <button onClick={unmount}>Unmount</button>
+                        </div>
+                    </div>
+                );
+            }
+
+            roots.render(
+                <UserForm />
+            );
+    </script>
+</body>
+
+</html>
